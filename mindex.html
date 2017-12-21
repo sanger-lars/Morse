@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html >
+
+  <head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+    <title>morse</title>
+        
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+  </head>
+ 
+  <body>
+    <div class="tittel"><span id="btn">Menu</span><H1>MORSE-PROGRAM</H1></div>
+    <img id="morseN" src="morsenagle_sh.jpg">
+    <div id="morsediv" style="overflow:hidden; height:100%">
+      <TABLE align="center">
+      	<TH colspan="2" id="bogstav" size="15" style="font: normal 300% monospace; width: 100%; text-align: center; color: black"/>
+      	  CH
+      	</TH>
+
+        <TR>
+          <TD colspan="2"> <input type=Text id="morsetgn" size="6" 
+            style="font: normal 200% monospace; color: black; width: 99%; text-align: center" disabled/>
+          </TD>
+        </TR>     
+        <TR id="prikstreg">
+          <TD rowspan="1"><Button id="prik" style= "width: 100%; font-size: 200%; height: 100%"> * </button></TD> 
+          <TD rowspan="1"><Button id="streg" style= "width: 100%; font-size: 200%; height: 100%"> - </button></TD>
+        </TR>     
+        <TR>
+          <TD><Button id="OK" style= "width: 100%; height: 100%; font-size: 200%"> OK </button></TD>	
+          <TD><Button id="slet" style= "width: 100%; height: 100%; font-size: 200%;"> Slet </button></TD>
+        </TR>
+          
+      </TABLE>    
+    </div>
+
+    <div id="bogstavdiv" style="overflow:hidden; height:100%">
+      <TABLE align="center">
+        <TH colspan="2" id="morsetgn2" size="6" style="font: normal 300% monospace; width: 200%; text-align: center; color: black"/>
+        </TH>
+
+        <TR>
+          <TD colspan="2"> <input type=Text id="bogstav2" size="30" 
+            style="font: normal 300% monospace; color: black; width: 99%; text-align: center"/>
+          </TD>
+                
+        <TR>
+          <TD><Button id="OK2" style= "width: 100%; height: 100%; font-size: 200%"> OK </button></TD>  
+          <TD><Button id="slet" style= "width: 100%; height: 100%; font-size: 200%;"> Slet </button></TD>
+        </TR>
+          
+      </TABLE>    
+    </div>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src="index.js"></script>
+  </body>
+  
+</html>
