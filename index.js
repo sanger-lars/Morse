@@ -3,6 +3,7 @@
   // morsetræner starter her 
   var kopimorse = [];
   var kopibogstav = [];
+  var fejlTabel;
   var bogstav = kopibogstav;
   var morse = kopimorse;
   var M, B;
@@ -24,6 +25,7 @@
       "C", "Y" ,"Z", "Q", "Ø", "CH", "Å"];
     bogstav = kopibogstav;
     morse = kopimorse;
+    fejlTabel =[];
   } // lav_tabeller()
 
 
@@ -98,6 +100,7 @@
     } else if (tgn != M){
        $('#OK').css('background-color', 'red');
         ialt++;
+        fejlTabel.push(B);
         lav_tegn();
         vis_bstav(B);
         vis_morse(tgn);
@@ -118,6 +121,7 @@ $('#OK2').on("click", function(){
     } else if (tgn != B){
        $('#OK2').css('background-color', 'red');
         ialt++;
+        fejlTabel.push(B);
         lav_tegn();
         vis_bstav(tgn);
         vis_morse(M);
@@ -150,7 +154,15 @@ Function.prototype.bind = function(parent) {
 
   function lav_tegn(){
     if (morse.length === 1) {
-      alert("Du havde "+rigtig+" rigtige ud af "+ialt+" mulige.");
+      var tekst = "Du havde "+rigtig+" rigtige ud af "+ialt+" mulige. ";
+      if (rigtig < 30) {
+        fejlTabel = fejlTabel.sort().reverse();
+        tekst=tekst+"<br>Du skal øve dig på følgende bogstaver: ";
+        for (var i = fejlTabel.length - 1; i >= 0; i--) {
+          tekst = tekst +" "+fejlTabel[i]+",";
+        }
+      } 
+      popup(tekst);
       rigtig = 0;
       ialt = 0;
       lav_tabeller();
@@ -194,8 +206,34 @@ Function.prototype.bind = function(parent) {
     }
   } // vis_bstav(b)
 
+  function popup(tekst) {
+    tekst= "<br>"+tekst;
+    $("#popup1").toggleClass("popup__synlig");
+    $(".content").html(tekst);
+  }
+  
+  $('#luk').on("click", function(){
+    $(".content").html("");
+    $("#popup1").toggleClass("popup__synlig");
+  })
+
+  let startTid , slutTid;
+
+function startUr() {
+  d = new Date();
+  startTid = d.getTime();
+  console.log(startTid);
+}
+
+function stopUr() {
+  d = new Date();
+  stopTid = d.getTime();
+  console.log(stopTid);
+  console.log('det tog: '+ Math.round((stopTid-startTid)/1000) + " sekunder");
+}
 
   function start() {
+    popup("<h1>Velkommen til morsetræningen. <br> Tryk på Menu-knappen for at skifte mellem bogstaver og morsetegn.<br>Og tryk på morsenøglen for at skjule den.</h1><br>");
     farve = true;
     lav_tabeller();
     lav_tegn();

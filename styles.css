@@ -41,6 +41,18 @@ img {
 	float: right;
 }
 
+.status {
+	width: 300px;
+	height: 500px;
+	border: 1px solid black;
+	background-color:  lightblue;
+	opacity: 0.8;
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
 @media screen and (max-width: 500px) {
 	table {
 		width: 100%;
@@ -57,7 +69,14 @@ img {
 	#morseN {
 		width: 100%;
 	}
-
+	.status {
+		width: 100%;
+		max-height: 90%;
+		border-spacing: 10px;
+		padding-top: 0%;
+		padding-bottom: 0%;
+	}
+}
 
 @media screen and (min-width: 668px) {
 	table {
@@ -75,4 +94,69 @@ img {
 	#morseN {
 		width:80%;
 	}
+}
+
+.overlay {
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  -webkit-transition: opacity 500ms;
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.popup__synlig {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  -webkit-transition: all 5s ease-in-out;
+  transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.popup h1 {
+	font-size: 1.3rem;
+}
+.popup .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: #06D85F;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
 }
