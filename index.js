@@ -7,7 +7,8 @@
   var bogstav = kopibogstav;
   var morse = kopimorse;
   var M, B;
-  var farve, skrivMorse = true; 
+  var farve, skrivMorse, tidstagningTil = true; 
+  let popupOpen = false;
   var colll = $('#OK').css('background-color'); 
   var tgn="";
   var timeoutID;
@@ -46,6 +47,7 @@
 
       skrivMorse = true;
     }
+    if (tidstagningTil) {startUr();}
     lav_tabeller();
     lav_tegn();
     if (skrivMorse) {
@@ -153,6 +155,8 @@ Function.prototype.bind = function(parent) {
   }
 
   function lav_tegn(){
+    let tid;
+
     if (morse.length === 1) {
       var tekst = "Du havde "+rigtig+" rigtige ud af "+ialt+" mulige. ";
       if (rigtig < 30) {
@@ -162,9 +166,15 @@ Function.prototype.bind = function(parent) {
           tekst = tekst +" "+fejlTabel[i]+",";
         }
       } 
+      if (tidstagningTil) {
+        stopUr();
+        tid = Math.round((stopTid-startTid)/1000);
+        tekst=tekst+"<br> Tid: "+Math.floor(tid/60)+":"+Math.floor(tid%60);
+      }
       popup(tekst);
       rigtig = 0;
       ialt = 0;
+      if (tidstagningTil) {startUr();}
       lav_tabeller();
     }
     var t = Math.floor((Math.random() * (morse.length-1)) + 1);
@@ -210,11 +220,13 @@ Function.prototype.bind = function(parent) {
     tekst= "<br>"+tekst;
     $("#popup1").toggleClass("popup__synlig");
     $(".content").html(tekst);
+    popupOpen = true;
   }
   
   $('#luk').on("click", function(){
     $(".content").html("");
     $("#popup1").toggleClass("popup__synlig");
+    popupOpen = false;
   })
 
   let startTid , slutTid;
@@ -229,12 +241,17 @@ function stopUr() {
   d = new Date();
   stopTid = d.getTime();
   console.log(stopTid);
-  console.log('det tog: '+ Math.round((stopTid-startTid)/1000) + " sekunder");
+  console.log('det tog: '+ Math.round((stopTid-startTid)/1000) + 
+    " sekunder");
 }
 
   function start() {
-    popup("<h1>Velkommen til morsetræningen. <br> Tryk på Menu-knappen for at skifte mellem bogstaver og morsetegn.<br>Og tryk på morsenøglen for at skjule den.</h1><br>");
+    popup("<h1>Velkommen til morsetræningen. <br> Tryk på Menu-knappen "+
+      "for at skifte mellem bogstaver og morsetegn.<br>Og tryk på "+
+      "morsenøglen for at skjule den.</h1><br>");
     farve = true;
+    
+    if (tidstagningTil) {startUr();}
     lav_tabeller();
     lav_tegn();
     if (skrivMorse) {
@@ -250,6 +267,7 @@ function stopUr() {
   $('#morsediv').css('display','block');
   $('#bogstavdiv').css('display','none');
   skrivMorse = true;
+  
   start();
 
 
