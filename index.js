@@ -14,6 +14,7 @@
   var timeoutID;
   var rigtig = 0;
   var ialt = 0;
+  let skalUrStartes = false;
 
 
   function lav_tabeller() {
@@ -27,10 +28,20 @@
     bogstav = kopibogstav;
     morse = kopimorse;
     fejlTabel =[];
+    nulstilTaeller();
+    skalUrStartes = true;
   } // lav_tabeller()
 
+  function nulstilTaeller() {
+    rigtig = 0;
+    ialt = 0;
+  }
 
   $('#prik').on("click", function(){
+    if (skalUrStartes) {
+      startUr();
+      skalUrStartes = false;
+    }
     tgn=tgn+"*";
     vis_morse(tgn);
   });
@@ -47,7 +58,7 @@
 
       skrivMorse = true;
     }
-    if (tidstagningTil) {startUr();}
+    skalUrStartes = true;
     lav_tabeller();
     lav_tegn();
     if (skrivMorse) {
@@ -56,6 +67,15 @@
     } else {
       vis_morse(M)
       vis_bstav(tgn);
+      
+    }
+    nulstilTaeller();
+  });
+
+  $('#bogstav2').on("focus", function() {
+    if (!popupOpen & skalUrStartes) {
+      startUr();
+      skalUrStartes = false;
     }
   });
 
@@ -71,6 +91,10 @@
   
 
   $('#streg').on("click", function(){
+    if (skalUrStartes) {
+      startUr();
+      skalUrStartes = false;
+    }
     tgn=tgn+"-";
     vis_morse(tgn);
   }); // #streg on click
@@ -128,7 +152,9 @@ $('#OK2').on("click", function(){
         vis_bstav(tgn);
         vis_morse(M);
     }
+
     $('#bogstav2').focus();
+
     timeoutID = setTimeout(function() {
       skift_farve();
     }.bind(this),1000)
@@ -149,13 +175,39 @@ Function.prototype.bind = function(parent) {
     return(temp);
 }
 
+  function sort_tider(tider) {
+    var sortarray = [{field:'fejl', direction:'asc'}, {field:'tid', direction:'asc'}];
+
+    tider.sort(function(a,b){
+        for(var i=0; i<sortarray.length; i++){
+            retval = a[sortarray[i].field] < b[sortarray[i].field] ? -1 : a[sortarray[i].field] > b[sortarray[i].field] ? 1 : 0;
+            if (sortarray[i].direction == "desc") {
+                retval = retval * -1;
+            }
+            if (retval !== 0) {
+                return retval;
+            }
+        }
+    })
+    return tider;
+  }
+
   function skift_farve() {
     $('#OK').css('background-color', colll);
     $('#OK2').css('background-color', colll);
   }
 
+  function formaterTid(t) {
+    let tid = Math.round((t)/1000);
+    let minut = Math.floor(tid/60);
+    let sekund = Math.floor(tid%60).toString();
+    if (sekund.length == 1) {
+      sekund = '0'+sekund;
+    }
+    return minut+":"+sekund;
+  }
+
   function lav_tegn(){
-    let tid;
 
     if (morse.length === 1) {
       var tekst = "Du havde "+rigtig+" rigtige ud af "+ialt+" mulige. ";
@@ -168,13 +220,12 @@ Function.prototype.bind = function(parent) {
       } 
       if (tidstagningTil) {
         stopUr();
-        tid = Math.round((stopTid-startTid)/1000);
-        tekst=tekst+"<br> Tid: "+Math.floor(tid/60)+":"+Math.floor(tid%60);
+        
+        tekst=tekst+"<br> Tid: "+formaterTid(stopTid-startTid);
       }
       popup(tekst);
-      rigtig = 0;
-      ialt = 0;
-      if (tidstagningTil) {startUr();}
+      nulstilTaeller();
+      skalUrStartes = true;
       lav_tabeller();
     }
     var t = Math.floor((Math.random() * (morse.length-1)) + 1);
@@ -234,13 +285,12 @@ Function.prototype.bind = function(parent) {
 function startUr() {
   d = new Date();
   startTid = d.getTime();
-  console.log(startTid);
+  console.log('Start Ur');
 }
 
 function stopUr() {
   d = new Date();
   stopTid = d.getTime();
-  console.log(stopTid);
   console.log('det tog: '+ Math.round((stopTid-startTid)/1000) + 
     " sekunder");
 }
@@ -251,7 +301,6 @@ function stopUr() {
       "morsenøglen for at skjule den.</h1><br>");
     farve = true;
     
-    if (tidstagningTil) {startUr();}
     lav_tabeller();
     lav_tegn();
     if (skrivMorse) {
