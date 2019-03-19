@@ -106,6 +106,12 @@
     vis_morse(tgn);
   }); // #slet on click
 
+  $('#slet2').on("click", function(){
+    $('#OK').css('background-color', colll);
+    tgn="";
+    vis_bstav(tgn);
+  }); // #slet2 on click
+
   $('#bogstav2').blur(function() {
     
     tgn = $("#bogstav2").val();

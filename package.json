@@ -1,0 +1,23 @@
+{
+  "name": "morse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mindex.html",
+  "dependencies": {
+    "firebase": "^4.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanger-lars/Morse.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanger-lars/Morse/issues"
+  },
+  "homepage": "https://github.com/sanger-lars/Morse#readme"
+}
