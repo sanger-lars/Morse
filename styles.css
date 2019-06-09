@@ -121,8 +121,8 @@ img {
   border-radius: 5px;
   width: 30%;
   position: relative;
-  -webkit-transition: all 5s ease-in-out;
-  transition: all 5s ease-in-out;
+  -webkit-transition: all 2s ease-in-out;
+  transition: all 2s ease-in-out;
 }
 
 .popup h2 {

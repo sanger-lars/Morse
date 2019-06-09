@@ -79,7 +79,7 @@
     }
   });
 
-  $('#morseN').on("click", function() {
+  $('#morseN').on("mouseup", function() {
     if (farve === true) {
       this.src = "morsenagle_tom.jpg";
       farve = false;
@@ -119,7 +119,7 @@
   });
 
 
-  $('#OK').on("click", function(){
+  $('#OK').on("mouseup", function(){
     if (tgn === M) {
       $('#OK').css('background-color', 'lightgreen');
       rigtig++;
@@ -142,29 +142,42 @@
     }.bind(this),1000)
   }); // #OK on click
 
-$('#OK2').on("click", function(){
-    if (tgn === B) {
-      $('#OK2').css('background-color', 'lightgreen');
-      rigtig++;
+$('#OK2').on("mouseup", function(){
+  check_bogstav();
+}); // #OK2 on click
+
+$('#bogstav2').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        tgn = $("#bogstav2").val();
+        vis_bstav(tgn);
+        check_bogstav();
+    }
+});
+
+function check_bogstav() {
+  if (tgn === B) {
+    $('#OK2').css('background-color', 'lightgreen');
+    rigtig++;
+    ialt++;
+    lav_tegn();
+    vis_bstav(tgn);
+    vis_morse(M); 
+  } else if (tgn != B){
+     $('#OK2').css('background-color', 'red');
       ialt++;
+      fejlTabel.push(B);
       lav_tegn();
       vis_bstav(tgn);
-      vis_morse(M); 
-    } else if (tgn != B){
-       $('#OK2').css('background-color', 'red');
-        ialt++;
-        fejlTabel.push(B);
-        lav_tegn();
-        vis_bstav(tgn);
-        vis_morse(M);
-    }
+      vis_morse(M);
+  }
 
-    $('#bogstav2').focus();
+  $('#bogstav2').focus();
 
-    timeoutID = setTimeout(function() {
-      skift_farve();
-    }.bind(this),1000)
-  }); // #OK on click
+  timeoutID = setTimeout(function() {
+    skift_farve();
+  }.bind(this),1000)
+}
 
 Function.prototype.bind = function(parent) {
     var f = this;
