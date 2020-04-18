@@ -2,7 +2,7 @@
   "name": "morse",
   "version": "1.0.0",
   "description": "",
-  "main": "mindex.html",
+  "main": "index.html",
   "dependencies": {},
   "devDependencies": {},
   "scripts": {

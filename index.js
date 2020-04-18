@@ -15,16 +15,30 @@
   var rigtig = 0;
   var ialt = 0;
   let skalUrStartes = false;
-
+  const zzz = window.location.search;
+  let gb = false;
+  
 
   function lav_tabeller() {
-    kopimorse = ["", "*", "-","**", "*-", "-*", "--", "***", "**-" ,
-      "*-*", "*--", "-**" ,"-*-", "--*", "---", "****" ,"***-", "**-*",
-      "*-**" ,"*-*-", "*--*", "*---", "-***" ,"-**-", "-*-*", "-*--" ,
-      "--**", "--*-", "---*", "----", "*--*-"];
-    kopibogstav = ["", "E", "T","I", "A", "N","M", "S", "U" ,"R", "W", 
-      "D" ,"K", "G", "O", "H" ,"V", "F", "L" ,"Æ", "P", "J", "B" ,"X",
-      "C", "Y" ,"Z", "Q", "Ø", "CH", "Å"];
+    if (gb) {
+        kopimorse = ["", "*", "-","**", "*-", "-*", "--", "***", "**-" ,
+        "*-*", "*--", "-**" ,"-*-", "--*", "---", "****" ,"***-", "**-*",
+        "*-**" , "*--*", "*---", "-***" ,"-**-", "-*-*", "-*--" ,
+        "--**", "--*-", "----"];
+      kopibogstav = ["", "E", "T","I", "A", "N","M", "S", "U" ,"R", "W", 
+        "D" ,"K", "G", "O", "H" ,"V", "F", "L" , "P", "J", "B" ,"X",
+        "C", "Y" ,"Z", "Q", "CH"];     
+    }
+    else {
+      kopimorse = ["", "*", "-","**", "*-", "-*", "--", "***", "**-" ,
+        "*-*", "*--", "-**" ,"-*-", "--*", "---", "****" ,"***-", "**-*",
+        "*-**" ,"*-*-", "*--*", "*---", "-***" ,"-**-", "-*-*", "-*--" ,
+        "--**", "--*-", "---*", "----", "*--*-"];
+      kopibogstav = ["", "E", "T","I", "A", "N","M", "S", "U" ,"R", "W", 
+        "D" ,"K", "G", "O", "H" ,"V", "F", "L" ,"Æ", "P", "J", "B" ,"X",
+        "C", "Y" ,"Z", "Q", "Ø", "CH", "Å"];      
+    }
+
     bogstav = kopibogstav;
     morse = kopimorse;
     fejlTabel =[];
@@ -229,18 +243,31 @@ Function.prototype.bind = function(parent) {
   function lav_tegn(){
 
     if (morse.length === 1) {
-      var tekst = "Du havde "+rigtig+" rigtige ud af "+ialt+" mulige. ";
-      if (rigtig < 30) {
+      if (gb) {
+        var tekst = "You've got "+rigtig+" right of "+ialt+" possible. ";
+      }
+      else {
+        var tekst = "Du havde "+rigtig+" rigtige ud af "+ialt+" mulige. ";
+      }
+      
+      if (rigtig < ialt) {
         fejlTabel = fejlTabel.sort().reverse();
-        tekst=tekst+"<br>Du skal øve dig på følgende bogstaver: ";
+        if (gb) {
+          tekst=tekst+"<br>You should practice the following letters: ";
+        } else  {
+          tekst=tekst+"<br>Du skal øve dig på følgende bogstaver: ";
+        }
         for (var i = fejlTabel.length - 1; i >= 0; i--) {
           tekst = tekst +" "+fejlTabel[i]+",";
         }
       } 
       if (tidstagningTil) {
         stopUr();
-        
-        tekst=tekst+"<br> Tid: "+formaterTid(stopTid-startTid);
+        if (gb) {  
+          tekst=tekst+"<br> Time: "+formaterTid(stopTid-startTid);
+        } else {
+          tekst=tekst+"<br> Tid: "+formaterTid(stopTid-startTid);
+        }
       }
       popup(tekst);
       nulstilTaeller();
@@ -314,10 +341,26 @@ function stopUr() {
     " sekunder");
 }
 
+
+  $('#flag').click((e) => {
+      if (gb) window.location.replace("index.html");
+      else window.location.replace("index.html?gb");
+  });
+
   function start() {
+    if (gb) {
+      popup("<h1>Velcome to the Morse-training.<br> Click on the "+
+        "Menu button to toggle between letters and morse-code<br>"+
+        "Click on the Morsekey (the picture) to hide it.<br>"+
+        "There'll be no danish letters (&AElig; &Oslash; &Aring;)<br>After the 27 letters You'll see: <br>"+
+        "how many You got right, <br>"+
+        "which ones You got wrong,<br>"+
+        "and the time.</h1><br>");
+    } else {
     popup("<h1>Velkommen til morsetræningen. <br> Tryk på Menu-knappen "+
       "for at skifte mellem bogstaver og morsetegn.<br>Og tryk på "+
       "morsenøglen for at skjule den.</h1><br>");
+    }
     farve = true;
     
     lav_tabeller();
@@ -328,14 +371,20 @@ function stopUr() {
   } // start()
 
 
-// main
+
+// main 
   $("#morsetgn").val(tgn);
   $('#OK').css('width', '100%');
   
   $('#morsediv').css('display','block');
   $('#bogstavdiv').css('display','none');
   skrivMorse = true;
-  
+  gb = (zzz == '?gb');
+  if (gb) {
+    $('#flag').attr("src",'iconfinder_danish_5320697.png');
+    $('#slet, #slet2').html('Delete');
+  }
+  else $('#flag').attr("src",'iconfinder_england_5320698.png');
   start();
 
 

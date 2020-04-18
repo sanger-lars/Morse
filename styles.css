@@ -18,6 +18,7 @@ button{
 }
 
 
+
 table {
 	width: 50%;
 }
@@ -28,6 +29,11 @@ img {
     width: 50%;
 }
 
+#flag {
+	width: 40px;
+	float: right;
+	padding-right: 10px;
+}
 .tittel {
 	width: 70%;
 	text-align: center;
@@ -146,6 +152,7 @@ img {
 }
 .popup .close:hover {
   color: #06D85F;
+  cursor: pointer;
 }
 .popup .content {
   max-height: 30%;
